@@ -33,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Login");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         email = findViewById(R.id.logEmail);
         password = findViewById(R.id.logPass);

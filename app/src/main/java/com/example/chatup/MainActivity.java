@@ -7,9 +7,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     Button login, register;
+    FirebaseUser firebaseUser;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(firebaseUser != null){
+            startActivity(new Intent(MainActivity.this, ChatActivity.class));
+            finish();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         login = findViewById(R.id.mainLog);
         register = findViewById(R.id.mainReg);
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
