@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.ProfileFragment">
+
+
+ <androidx.cardview.widget.CardView
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     app:cardCornerRadius="10dp"
+     app:cardElevation="3dp"
+     android:fadingEdge="vertical">
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical">
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:textSize="20dp"
+             android:text="Profile"
+             android:layout_margin="8dp"
+             android:textStyle="bold"/>
+
+         <de.hdodenhof.circleimageview.CircleImageView
+             android:layout_width="300dp"
+             android:layout_height="300dp"
+             android:layout_gravity="center_horizontal"
+             android:layout_margin="20dp"
+             android:padding="8dp"
+             android:id="@+id/profile_pic_set"
+             android:src="@drawable/person_vector"
+             app:civ_circle_background_color="@color/black"/>
+
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"
+             android:text="Username"
+             android:textSize="20sp"
+             android:textStyle="bold"
+             android:layout_marginBottom="20dp"
+             android:id="@+id/username_set"
+             android:layout_marginTop="10dp"/>
+
+     </LinearLayout>
+
+
+ </androidx.cardview.widget.CardView>
+
+</FrameLayout>
