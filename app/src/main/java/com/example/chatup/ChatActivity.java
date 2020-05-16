@@ -3,6 +3,7 @@ package com.example.chatup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,10 +14,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.chatup.Adapters.Users_recycler_adapter;
 import com.example.chatup.Fragments.ChatsFragment;
 import com.example.chatup.Fragments.ProfileFragment;
 import com.example.chatup.Fragments.UsersFragment;
@@ -31,6 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -69,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
                     profileImage.setImageResource(R.drawable.person_vector);
                 }
                 else {
-                    Glide.with(ChatActivity.this).load(userDetails.getImageUrl()).into(profileImage);
+                    Glide.with(getApplicationContext()).load(userDetails.getImageUrl()).into(profileImage);
                 }
             }
 
@@ -92,6 +94,11 @@ public class ChatActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
     }
+
+
+
+
+
 
     class ViewPagerAdapter extends FragmentPagerAdapter{
 
@@ -121,7 +128,6 @@ public class ChatActivity extends AppCompatActivity {
             fragments.add(fragment);
             titles.add(title);
         }
-
         @Nullable
         @Override
         public CharSequence getPageTitle(int position) {
@@ -135,9 +141,10 @@ public class ChatActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id){
             case R.id.logout : FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(ChatActivity.this, MainActivity.class));
-            finish();
-            return true;
+            startActivity(new Intent(ChatActivity.this, MainActivity.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                return true;
+/*            case R.id.search_exp:
+                return true;*/
         }
 
         return false;
@@ -147,6 +154,43 @@ public class ChatActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
+        /*SearchView searchView = (SearchView)menu.findItem(R.id.search_exp).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });*/
+
         return super.onCreateOptionsMenu(menu);
+
+    }
+
+    public void status(String status){
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(firebaseUser.getUid());
+
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        hashMap.put("status", status);
+        databaseReference.updateChildren(hashMap);
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        status("online");
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        status("offline");
     }
 }

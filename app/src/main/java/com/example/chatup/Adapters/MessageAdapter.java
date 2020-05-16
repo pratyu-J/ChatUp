@@ -66,6 +66,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             Glide.with(mContext).load(imgUrl).into(holder.img);
         }
 
+        if(position == mChat.size()-1){
+            if(curr.isIsseen()){
+                holder.txt_seen.setText("Seen");
+            }else {
+                holder.txt_seen.setText("delivered");
+            }
+        }else {
+            holder.txt_seen.setVisibility(View.GONE);
+        }
+
 
 
     }
@@ -80,6 +90,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         ImageView img;
         TextView show_message;
+        TextView txt_seen;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -87,6 +98,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
             show_message = itemView.findViewById(R.id.show_message);
             img = itemView.findViewById(R.id.prof_img);
+            txt_seen = itemView.findViewById(R.id.seen);
 
         }
     }
