@@ -48,7 +48,17 @@
         android:id="@+id/login"
         android:padding="8dp"
         android:text="Login"
-        android:background="@color/colorAccent"/>
+        android:background="@drawable/cyan_button"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot your Password?"
+        android:layout_gravity="end"
+        android:clickable="true"
+        android:layout_marginRight="10dp"
+        android:textStyle="bold"
+        android:id="@+id/forgot_pass"
+        android:textColor="#0C6D71"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

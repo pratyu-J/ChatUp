@@ -17,6 +17,7 @@
         android:layout_margin="20dp"
         android:layout_gravity="center_horizontal"
         android:textSize="22sp"
+        android:textColor="@color/colorAccent"
         android:text="Create a new Account"/>
 
     <EditText
@@ -56,7 +57,7 @@
         android:id="@+id/register"
         android:padding="8dp"
         android:text="REGISTER"
-        android:background="@color/colorAccent"/>
+        android:background="@drawable/cyan_button"/>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

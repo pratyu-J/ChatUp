@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.chatup.Adapters.Users_recycler_adapter;
 import com.example.chatup.Models.Chat;
+import com.example.chatup.Models.ChatList;
 import com.example.chatup.Models.UserDetails;
 import com.example.chatup.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +38,7 @@ public class ChatsFragment extends Fragment {
     Users_recycler_adapter adapter;
     ArrayList<UserDetails> userChats;
 
-    ArrayList<String> userList;
+    ArrayList<ChatList> userList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,7 +54,27 @@ public class ChatsFragment extends Fragment {
 
         userList = new ArrayList<>();
 
-        reference = FirebaseDatabase.getInstance().getReference("chats");
+        reference = FirebaseDatabase.getInstance().getReference("chatlist").child(fuser.getUid());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userList.clear();
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    ChatList chatList = snapshot.getValue(ChatList.class);
+                    userList.add(chatList);
+                }
+
+                chatList();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -79,12 +100,42 @@ public class ChatsFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        });*/
 
         return v;
     }
 
-    public void readChats(){
+    private void chatList() {
+        userChats = new ArrayList<>();
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userChats.clear();
+
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    UserDetails details = snapshot.getValue(UserDetails.class);
+                    for(ChatList chatList: userList){
+                        if(details.getId().equals(chatList.getId())){
+                            userChats.add(details);
+                        }
+                    }
+
+                }
+
+                adapter = new Users_recycler_adapter(getContext(),userChats, true);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    /*public void readChats(){
         userChats = new ArrayList<>();
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -125,5 +176,5 @@ public class ChatsFragment extends Fragment {
 
             }
         });
-    }
+    }*/
 }
