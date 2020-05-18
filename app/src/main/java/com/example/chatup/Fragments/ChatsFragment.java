@@ -15,6 +15,7 @@ import com.example.chatup.Adapters.Users_recycler_adapter;
 import com.example.chatup.Models.Chat;
 import com.example.chatup.Models.ChatList;
 import com.example.chatup.Models.UserDetails;
+import com.example.chatup.Notification.Token;
 import com.example.chatup.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -23,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -102,7 +104,15 @@ public class ChatsFragment extends Fragment {
             }
         });*/
 
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
         return v;
+    }
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("tokens");
+        Token token1 = new Token(token);
+        reference.child(fuser.getUid()).setValue(token1 );
     }
 
     private void chatList() {
